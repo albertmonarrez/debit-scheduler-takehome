@@ -73,7 +73,10 @@ SAMPLE_RESPONSE_2 = [
 
 @pytest.fixture
 def app_client():
-    from app import create_app
+    try:
+        from ..app import create_app
+    except ValueError:
+        from app import create_app
     app = create_app()
     client = Client(app)
     return client
@@ -84,7 +87,7 @@ def test_case_1(app_client, expected):
     request = SAMPLE_REQUEST_1
 
     with freeze_time(expected['today']):
-        response = app_client.post('/get_next_debit', json=request)
+        response = app_client.post('/get_next_debit_view', json=request)
         assert response.status_code == 200
         assert response.json['debit']['amount'] == expected['amount']
         assert response.json['debit']['date'] == expected['date']
@@ -95,7 +98,7 @@ def test_case_2(app_client, expected):
     request = SAMPLE_REQUEST_2
 
     with freeze_time(expected['today']):
-        response = app_client.post('/get_next_debit', json=request)
+        response = app_client.post('/get_next_debit_view', json=request)
         assert response.status_code == 200
         assert response.json['debit']['amount'] == expected['amount']
         assert response.json['debit']['date'] == expected['date']
