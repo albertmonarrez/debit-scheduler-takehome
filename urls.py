@@ -3,5 +3,5 @@ import views
 
 url_patterns = Map([
     Rule("/", endpoint=''),
-    Rule("/get_next_debit_view", endpoint=views.get_next_debit_view)
+    Rule("/get_next_debit", endpoint=views.get_next_debit_view)
 ])

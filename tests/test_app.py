@@ -2,7 +2,6 @@ import pytest
 from werkzeug.test import Client
 from freezegun import freeze_time
 
-
 SAMPLE_REQUEST_1 = {
     'loan': {
         'monthly_payment_amount': 750,
@@ -46,7 +45,6 @@ SAMPLE_REQUEST_2 = {
     }
 }
 
-
 SAMPLE_RESPONSE_2 = [
     {
         'today': '2021-05-02',
@@ -87,7 +85,7 @@ def test_case_1(app_client, expected):
     request = SAMPLE_REQUEST_1
 
     with freeze_time(expected['today']):
-        response = app_client.post('/get_next_debit_view', json=request)
+        response = app_client.post('/get_next_debit', json=request)
         assert response.status_code == 200
         assert response.json['debit']['amount'] == expected['amount']
         assert response.json['debit']['date'] == expected['date']
@@ -98,7 +96,7 @@ def test_case_2(app_client, expected):
     request = SAMPLE_REQUEST_2
 
     with freeze_time(expected['today']):
-        response = app_client.post('/get_next_debit_view', json=request)
+        response = app_client.post('/get_next_debit', json=request)
         assert response.status_code == 200
         assert response.json['debit']['amount'] == expected['amount']
         assert response.json['debit']['date'] == expected['date']
