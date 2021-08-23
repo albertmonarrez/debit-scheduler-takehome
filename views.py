@@ -1,7 +1,7 @@
 import json
 import math
 from datetime import datetime, timedelta
-from typing import TypedDict
+from typing import TypedDict, Mapping
 
 from dateutil.relativedelta import relativedelta
 from werkzeug import Response
@@ -30,7 +30,7 @@ def get_next_debit_view(request: Request) -> Response:
     return Response(json.dumps({"debit": debit}), mimetype='application/json')
 
 
-def get_next_debit(post_body) -> Debit:
+def get_next_debit(post_body: Mapping[str, Loan]) -> Debit:
     """Gets the loan post data and passes it to calc function associated
     with that particular pay schedule and returns a debit."""
     loan: Loan = post_body.get('loan')
